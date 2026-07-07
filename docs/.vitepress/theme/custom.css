@@ -12,11 +12,11 @@
   --vp-c-brand-soft: rgba(99, 102, 241, 0.14);
 
   /* 毛玻璃参数 */
-  --glass-bg: rgba(255, 255, 255, 0.65);
-  --glass-bg-strong: rgba(255, 255, 255, 0.78);
-  --glass-border: rgba(255, 255, 255, 0.45);
-  --glass-blur: 16px;
-  --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-bg-strong: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-blur: 20px;
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 
   /* 首页 Hero 区域 */
   --vp-home-hero-name-color: transparent;
@@ -30,10 +30,10 @@
   --vp-c-brand-2: #6366f1;
   --vp-c-brand-3: #4f46e5;
 
-  --glass-bg: rgba(22, 22, 30, 0.65);
-  --glass-bg-strong: rgba(22, 22, 30, 0.8);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  --glass-bg: rgba(22, 22, 30, 0.55);
+  --glass-bg-strong: rgba(22, 22, 30, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 /* ========== 页面背景渐变 ========== */
@@ -88,27 +88,49 @@ body {
 }
 
 /* ========== 首页 Hero 区域 ========== */
+.VPHero {
+  padding: 60px 24px 40px;
+}
+
+/* .heading 是 display:flex;flex-direction:column，子元素偏左 */
+.VPHero .heading {
+  align-items: center;
+}
+
+/* .main 的 textAlign 默认 start，tagline 宽度不够导致偏左 */
+.VPHero .main {
+  text-align: center;
+}
+
 .VPHero .name .clip {
-  background: var(--glass-bg-strong);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 12px 24px;
-  box-shadow: var(--glass-shadow);
-  display: inline-block;
+  font-size: 3.2rem;
 }
 
 .VPHero .text {
-  color: var(--vp-c-text-2);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: 10px;
-  padding: 8px 20px;
-  display: inline-block;
-  margin-top: 12px;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--vp-c-text-1);
+}
+
+.VPHero .tagline {
+  font-size: 1rem;
+  color: var(--vp-c-text-3);
+  margin-top: 8px;
+  margin-bottom: 24px;
+  text-align: center;
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block !important;
+}
+
+.VPHero .actions {
+  justify-content: center;
+}
+
+/* 隐藏 Hero 图片 — 居中排版不需要 */
+.VPHero .image,
+.VPHero .VPHeroImage {
+  display: none !important;
 }
 
 .VPButton.brand {
@@ -127,7 +149,37 @@ body {
   border: 1px solid var(--glass-border) !important;
   border-radius: 12px !important;
   box-shadow: var(--glass-shadow);
-  padding: 24px;
+  padding: 28px 24px;
+  text-align: center;
+}
+
+/* 卡片图标样式 */
+.VPFeature .title {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.VPFeature .details {
+  font-size: 0.9rem;
+  color: var(--vp-c-text-3);
+  line-height: 1.6;
+}
+
+/* 图标容器 */
+.VPFeature .icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--vp-c-brand-soft), rgba(124, 58, 237, 0.1));
+}
+
+.VPFeature .icon img {
+  width: 24px;
+  height: 24px;
 }
 
 /* ========== 代码块 ========== */
@@ -283,14 +335,14 @@ body {
   animation: fadeInUp 0.8s ease-out 0.15s both;
 }
 
-/* Hero 按钮组延迟渐入 */
-.VPHero .actions {
-  animation: fadeInUp 0.8s ease-out 0.3s both;
+/* Hero 标语延迟渐入 */
+.VPHero .tagline {
+  animation: fadeIn 0.8s ease-out 0.25s both;
 }
 
-/* Hero 图片缩放渐入 */
-.VPHero .image {
-  animation: scaleIn 1s ease-out 0.2s both;
+/* Hero 按钮组延迟渐入 */
+.VPHero .actions {
+  animation: fadeInUp 0.8s ease-out 0.35s both;
 }
 
 /* ---------- 特性卡片交错渐入 ---------- */
