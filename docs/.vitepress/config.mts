@@ -4,9 +4,10 @@ export default defineConfig({
   title: '个人博客',
   description: '一个记录技术学习历程的个人博客',
   lang: 'zh-CN',
+  base: '/Personal_Blog/',
 
   head: [
-    ['link', { rel: 'icon', href: '/logo.svg' }],
+    ['link', { rel: 'icon', href: '/Personal_Blog/logo.svg' }],
   ],
 
   themeConfig: {
