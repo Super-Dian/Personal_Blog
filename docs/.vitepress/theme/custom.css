@@ -1,8 +1,9 @@
 /**
  * 自定义主题样式
- * 品牌色：靛蓝 (Indigo)
+ * 风格：毛玻璃 (Frosted Glass) + 靛蓝品牌色
  */
 
+/* ========== 全局变量 ========== */
 :root {
   /* 品牌色 */
   --vp-c-brand-1: #4f46e5;
@@ -10,10 +11,16 @@
   --vp-c-brand-3: #818cf8;
   --vp-c-brand-soft: rgba(99, 102, 241, 0.14);
 
+  /* 毛玻璃参数 */
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-bg-strong: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.45);
+  --glass-blur: 16px;
+  --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+
   /* 首页 Hero 区域 */
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #4f46e5 30%, #7c3aed);
-
   --vp-home-hero-image-background-image: linear-gradient(-45deg, #4f46e580 50%, #7c3aed50 50%);
   --vp-home-hero-image-filter: blur(44px);
 }
@@ -22,29 +29,208 @@
   --vp-c-brand-1: #818cf8;
   --vp-c-brand-2: #6366f1;
   --vp-c-brand-3: #4f46e5;
+
+  --glass-bg: rgba(22, 22, 30, 0.65);
+  --glass-bg-strong: rgba(22, 22, 30, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
 }
 
-/* 首页特性卡片美化 */
+/* ========== 页面背景渐变 ========== */
+body {
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 30%, #f5f3ff 60%, #ede9fe 100%);
+  background-attachment: fixed;
+}
+
+.dark body,
+.dark {
+  background: linear-gradient(135deg, #0f0d1a 0%, #111827 30%, #0d0b1a 60%, #1a1030 100%);
+  background-attachment: fixed;
+}
+
+/* ========== 导航栏毛玻璃 ========== */
+.VPNav {
+  background: var(--glass-bg-strong) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+  border-bottom: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow);
+}
+
+/* 移动端导航栏 */
+.VPNav .VPNavBarHamburger {
+  background: transparent;
+}
+
+/* ========== 侧边栏毛玻璃 ========== */
+.VPSidebar {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+  border-right: 1px solid var(--glass-border) !important;
+}
+
+/* ========== 内容区域 ========== */
+.VPContent {
+  background: transparent;
+}
+
+/* 文档页面内容容器 */
+.vp-doc {
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  box-shadow: var(--glass-shadow);
+  padding: 32px;
+  margin: 24px;
+}
+
+/* ========== 首页 Hero 区域 ========== */
+.VPHero .name .clip {
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 12px 24px;
+  box-shadow: var(--glass-shadow);
+  display: inline-block;
+}
+
+.VPHero .text {
+  color: var(--vp-c-text-2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  padding: 8px 20px;
+  display: inline-block;
+  margin-top: 12px;
+}
+
+.VPButton.brand {
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35);
+}
+
+.dark .VPButton.brand {
+  box-shadow: 0 4px 16px rgba(129, 140, 248, 0.3);
+}
+
+/* ========== 特性卡片毛玻璃 ========== */
 .VPFeature {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: var(--glass-bg-strong) !important;
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--glass-shadow);
+  padding: 24px;
 }
 
-.VPFeature:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-}
-
-/* 代码块美化 */
+/* ========== 代码块 ========== */
 .vp-doc div[class*='language-'] {
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+/* 行内代码 */
+.vp-doc :not(pre) > code {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  padding: 2px 6px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* ========== 表格 ========== */
+.vp-doc table {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--glass-shadow);
+}
+
+.vp-doc th {
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.dark .vp-doc th {
+  background: rgba(129, 140, 248, 0.1);
+}
+
+/* ========== 容器块（tip / warning / danger） ========== */
+.vp-doc .custom-block {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
   border-radius: 8px;
 }
 
-/* 导航栏过渡 */
-.VPNavBarMenuLink .text {
-  transition: color 0.25s ease;
+/* ========== 导航链接按钮 ========== */
+.VPButton.brand {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
 }
 
-/* 侧边栏项过渡 */
-.VPSidebarItem .item .text {
-  transition: color 0.25s ease;
+.dark .VPButton.brand {
+  box-shadow: 0 4px 12px rgba(129, 140, 248, 0.3);
+}
+
+.VPButton.alt {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  color: var(--vp-c-brand-1);
+  border-radius: 8px;
+}
+
+/* ========== 页脚毛玻璃 ========== */
+.VPFooter {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+  border-top: 1px solid var(--glass-border) !important;
+}
+
+/* ========== Outline（右侧大纲） ========== */
+.VPDocOutlineMenu {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  box-shadow: var(--glass-shadow);
+}
+
+/* ========== 搜索框 ========== */
+.VPSearch .VPAlgoliaSearchBox,
+.VPSearch .VPLOCALSearchBox {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+}
+
+/* ========== Back to top 按钮 ========== */
+.VPBackToTop {
+  background: var(--glass-bg-strong) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 50%;
+  box-shadow: var(--glass-shadow);
 }
