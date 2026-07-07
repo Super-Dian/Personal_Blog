@@ -234,3 +234,173 @@ body {
   border-radius: 50%;
   box-shadow: var(--glass-shadow);
 }
+
+/* ==========================================================
+   动画效果 — 简约大气
+   ========================================================== */
+
+/* ---------- 关键帧定义 ---------- */
+
+/* 淡入上移 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 淡入 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 缩放淡入 */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ---------- 首页 Hero 动画 ---------- */
+
+/* Hero 标题渐入 */
+.VPHero .name {
+  animation: fadeInUp 0.8s ease-out both;
+}
+
+/* Hero 副标题延迟渐入 */
+.VPHero .text {
+  animation: fadeInUp 0.8s ease-out 0.15s both;
+}
+
+/* Hero 按钮组延迟渐入 */
+.VPHero .actions {
+  animation: fadeInUp 0.8s ease-out 0.3s both;
+}
+
+/* Hero 图片缩放渐入 */
+.VPHero .image {
+  animation: scaleIn 1s ease-out 0.2s both;
+}
+
+/* ---------- 特性卡片交错渐入 ---------- */
+
+.VPFeature {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.VPFeature:nth-child(1) { animation-delay: 0.1s; }
+.VPFeature:nth-child(2) { animation-delay: 0.2s; }
+.VPFeature:nth-child(3) { animation-delay: 0.3s; }
+.VPFeature:nth-child(4) { animation-delay: 0.4s; }
+
+/* ---------- 导航栏悬浮交互 ---------- */
+
+.VPNavBarMenuLink {
+  position: relative;
+}
+
+.VPNavBarMenuLink::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--vp-c-brand-1);
+  border-radius: 1px;
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.VPNavBarMenuLink:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* ---------- 侧边栏项悬浮 ---------- */
+
+.VPSidebarItem .item {
+  border-radius: 6px;
+  transition: background-color 0.2s ease, padding-left 0.2s ease;
+}
+
+.VPSidebarItem .item:hover {
+  background: var(--vp-c-bg-soft);
+  padding-left: 4px;
+}
+
+/* ---------- 文档内容入场 ---------- */
+
+.vp-doc {
+  animation: fadeIn 0.5s ease-out both;
+}
+
+/* ---------- 代码块悬浮 ---------- */
+
+.vp-doc div[class*='language-'] {
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.vp-doc div[class*='language-']:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border-color: var(--vp-c-brand-1);
+}
+
+/* ---------- 按钮悬浮 ---------- */
+
+.VPButton.brand {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.VPButton.brand:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+}
+
+.VPButton.alt {
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.VPButton.alt:hover {
+  transform: translateY(-1px);
+  background: var(--vp-c-bg-soft);
+}
+
+/* ---------- 滚动条美化 ---------- */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.5);
+}
+
+/* ---------- 减少动画模式 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
