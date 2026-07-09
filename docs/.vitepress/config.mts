@@ -20,9 +20,12 @@ export default defineConfig({
       {
         text: '技术笔记',
         items: [
-          { text: 'Web 开发', link: '/notes/web-dev' },
+          { text: 'Web 开发环境', link: '/notes/web-dev' },
+          { text: 'VS Code & Markdown', link: '/notes/vscode-markdown' },
+          { text: 'VitePress 构建', link: '/notes/vitepress-build' },
           { text: 'Linux 基础', link: '/notes/linux-basics' },
           { text: 'Git 使用', link: '/notes/git-usage' },
+          { text: '服务器部署', link: '/notes/deployment-server' },
         ]
       },
     ],
@@ -41,8 +44,11 @@ export default defineConfig({
           text: '技术笔记',
           items: [
             { text: 'Web 开发环境', link: '/notes/web-dev' },
+            { text: 'VS Code & Markdown', link: '/notes/vscode-markdown' },
+            { text: 'VitePress 构建', link: '/notes/vitepress-build' },
             { text: 'Linux 基础操作', link: '/notes/linux-basics' },
             { text: 'Git 版本管理', link: '/notes/git-usage' },
+            { text: '服务器部署', link: '/notes/deployment-server' },
           ]
         }
       ]
