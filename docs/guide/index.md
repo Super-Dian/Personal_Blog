@@ -1,42 +1,60 @@
 # 入门指南
 
-欢迎来到我的个人技术学习博客！
+欢迎来到“软件开发工具实践”课程成果站点。本项目使用 VitePress 构建，用于展示课程实验记录、部署流程和小组分工。
 
-## 关于本站
+## 如何阅读本站
 
-本站是一个基于 [VitePress](https://vitepress.dev/) 构建的静态博客，用于记录我在课程学习过程中的技术笔记和实践总结。
+建议按课程实验顺序阅读：
 
-## 内容导航
+1. [网络软件基础](/notes/network-basics)
+2. [Web 开发环境](/notes/web-dev)
+3. [代码编辑器与 Markdown](/notes/vscode-markdown)
+4. [Web 静态站点构建](/notes/site-build)
+5. [虚拟机安装与使用](/notes/virtualbox-ubuntu)
+6. [Linux 环境配置](/notes/linux-basics)
+7. [远程登录管理](/notes/ssh-remote)
+8. [软件部署](/notes/deploy)
 
-### Web 开发
-学习如何搭建 Web 开发环境，了解前端基础知识，包括 HTML、CSS、JavaScript 等技术。
+补充专题：
 
-→ [查看 Web 开发笔记](/notes/web-dev)
-
-### Linux 基础
-掌握 Linux 系统的基本操作，包括文件管理、权限控制、环境配置等。
-
-→ [查看 Linux 基础笔记](/notes/linux-basics)
-
-### Git 版本管理
-学习使用 Git 进行代码版本控制，掌握分支管理、团队协作等核心技能。
-
-→ [查看 Git 使用笔记](/notes/git-usage)
+- [Git 版本管理](/notes/git-usage)
+- [小组分工与成果说明](/guide/team)
 
 ## 本地运行
 
-如果你想在本地运行本站，可以按照以下步骤操作：
-
 ```bash
-# 克隆仓库
 git clone https://github.com/Super-Dian/Personal_Blog.git
 cd Personal_Blog
-
-# 安装依赖
 npm install
-
-# 启动开发服务器
 npm run dev
 ```
 
-启动后，在浏览器中打开终端显示的地址即可预览站点。
+默认访问：
+
+```text
+http://localhost:5173/
+```
+
+## 构建与部署
+
+```bash
+npm run build
+```
+
+构建产物位于：
+
+```text
+docs/.vitepress/dist/
+```
+
+项目推送到 `main` 分支后，GitHub Actions 会自动部署到 GitHub Pages。虚拟机部署流程见 [软件部署](/notes/deploy)。
+
+## 提交前准备
+
+最终提交前建议完成：
+
+- 替换小组成员真实姓名。
+- 补充实际实验截图。
+- 检查 GitHub Pages 是否能访问。
+- 检查虚拟机 Nginx 部署页面是否能访问。
+- 整理或导出最终 PDF 实验报告。

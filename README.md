@@ -1,10 +1,27 @@
-# 个人技术学习博客
+# 软件开发工具实践静态站点
 
-一个基于 [VitePress](https://vitepress.dev/) 构建的静态博客站点，记录课程学习过程中的技术笔记和实践总结。
+这是一个基于 [VitePress](https://vitepress.dev/) 构建的课程实践站点，用于整理“软件开发工具实践”课程中的实验过程、工具配置、Linux 虚拟机部署和小组成果说明。
 
 ## 在线访问
 
-🔗 **博客地址：** [https://super-dian.github.io/Personal_Blog/](https://super-dian.github.io/Personal_Blog/)
+[https://super-dian.github.io/Personal_Blog/](https://super-dian.github.io/Personal_Blog/)
+
+## 项目内容
+
+站点目前覆盖以下内容：
+
+| 模块 | 页面 |
+| --- | --- |
+| 网络软件基础 | `docs/notes/network-basics.md` |
+| Web 开发环境 | `docs/notes/web-dev.md` |
+| 代码编辑器与 Markdown | `docs/notes/vscode-markdown.md` |
+| Web 静态站点构建 | `docs/notes/site-build.md` |
+| 虚拟机安装与使用 | `docs/notes/virtualbox-ubuntu.md` |
+| Linux 环境配置 | `docs/notes/linux-basics.md` |
+| 远程登录管理 | `docs/notes/ssh-remote.md` |
+| 软件部署 | `docs/notes/deploy.md` |
+| Git 版本管理 | `docs/notes/git-usage.md` |
+| 小组分工与成果说明 | `docs/guide/team.md` |
 
 ## 本地运行
 
@@ -13,73 +30,114 @@
 - Node.js >= 18
 - npm
 
-### 安装与启动
+### 安装依赖
 
 ```bash
-# 克隆仓库
-git clone https://github.com/Super-Dian/Personal_Blog.git
-cd Personal_Blog
-
-# 安装依赖
 npm install
+```
 
-# 启动开发服务器
+在 CI 或干净环境中也可以使用：
+
+```bash
+npm ci
+```
+
+### 启动开发服务器
+
+```bash
 npm run dev
 ```
 
-启动后访问终端显示的地址（默认 `http://localhost:5173`）即可预览站点。
+默认访问：
+
+```text
+http://localhost:5173/
+```
 
 ### 构建
 
 ```bash
-# 构建生产版本
 npm run build
-
-# 预览构建结果
-npm run preview
 ```
+
+构建产物输出到：
+
+```text
+docs/.vitepress/dist/
+```
+
+## 部署说明
+
+### GitHub Pages
+
+项目通过 GitHub Actions 自动部署。推送到 `main` 分支后会自动执行：
+
+1. `npm ci`
+2. `npm run build`
+3. 上传 `docs/.vitepress/dist`
+4. 发布到 GitHub Pages
+
+由于仓库部署在子路径 `/Personal_Blog/`，VitePress 已配置：
+
+```ts
+base: '/Personal_Blog/'
+```
+
+### Ubuntu 虚拟机 + Nginx
+
+虚拟机部署时建议保持同样的子路径：
+
+```text
+/var/www/blog/Personal_Blog/
+```
+
+构建后可使用 SCP 或 rsync 上传：
+
+```bash
+scp -r docs/.vitepress/dist/* 用户名@192.168.56.101:/var/www/blog/Personal_Blog/
+```
+
+访问：
+
+```text
+http://192.168.56.101/Personal_Blog/
+```
+
+详细步骤见 `docs/notes/deploy.md`。
 
 ## 项目结构
 
-```
+```text
 Personal_Blog/
 ├── docs/
 │   ├── .vitepress/
-│   │   ├── config.mts          # VitePress 配置
+│   │   ├── config.mts
 │   │   └── theme/
-│   │       ├── index.ts        # 主题入口
-│   │       └── custom.css      # 自定义样式
-│   ├── index.md                # 首页
 │   ├── guide/
-│   │   └── index.md            # 入门指南
+│   │   ├── index.md
+│   │   └── team.md
 │   ├── notes/
-│   │   ├── web-dev.md          # Web 开发笔记
-│   │   ├── linux-basics.md     # Linux 基础笔记
-│   │   └── git-usage.md        # Git 使用笔记
+│   │   ├── network-basics.md
+│   │   ├── web-dev.md
+│   │   ├── vscode-markdown.md
+│   │   ├── site-build.md
+│   │   ├── virtualbox-ubuntu.md
+│   │   ├── linux-basics.md
+│   │   ├── ssh-remote.md
+│   │   ├── deploy.md
+│   │   └── git-usage.md
 │   └── public/
-│       └── logo.svg            # 站点 Logo
-├── .github/
-│   └── workflows/
-│       └── deploy.yml          # GitHub Pages 自动部署
+├── .github/workflows/deploy.yml
 ├── package.json
 └── README.md
 ```
 
-## 技术栈
+## 后续需要补充
 
-- [VitePress](https://vitepress.dev/) — 静态站点生成器
-- [Vue 3](https://vuejs.org/) — 前端框架
-- [Vite](https://vitejs.dev/) — 构建工具
-- [GitHub Pages](https://pages.github.com/) — 静态站点托管
-
-## 部署说明
-
-本项目通过 GitHub Actions 自动部署。推送到 `main` 分支后，会自动构建并部署到 GitHub Pages。
-
-**启用 GitHub Pages 的步骤：**
-1. 进入仓库 Settings → Pages
-2. Source 选择 **GitHub Actions**
-3. 推送代码后，Actions 会自动运行部署流程
+- 将成员 A-G 替换为真实小组成员姓名。
+- 添加实际实验截图，建议放到 `docs/public/screenshots/`。
+- 根据朋友已部署的虚拟机信息补充真实 IP、Nginx 访问截图和 SSH/rsync 记录。
+- 最终提交前导出或整理一份整合版 PDF 实验报告。
 
 ## 许可证
 

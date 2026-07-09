@@ -2,13 +2,16 @@
 layout: home
 
 hero:
-  name: "个人博客"
-  text: "技术学习笔记"
-  tagline: 记录学习过程，分享技术心得
+  name: "软件开发工具实践"
+  text: "从开发环境到虚拟机部署"
+  tagline: 用 VitePress 记录 Web 静态站点构建、Linux 配置、远程管理和软件部署全过程
   actions:
     - theme: brand
-      text: 开始探索
-      link: /guide/
+      text: 查看实验记录
+      link: /notes/network-basics
+    - theme: alt
+      text: 小组分工
+      link: /guide/team
     - theme: alt
       text: GitHub
       link: https://github.com/Super-Dian/Personal_Blog
@@ -16,18 +19,18 @@ hero:
 features:
   - icon:
       src: /icons/web.svg
-    title: Web 开发
-    details: 从零搭建 Web 开发环境，学习 HTML、CSS、JavaScript 等前端技术
-  - icon:
-      src: /icons/linux.svg
-    title: Linux 基础
-    details: 掌握 Linux 基本操作、Shell 命令、系统配置与权限管理
+    title: Web 开发环境
+    details: 安装 Node.js、npm、Git 和 VS Code，完成静态站点本地开发环境搭建
   - icon:
       src: /icons/git.svg
-    title: Git 版本管理
-    details: 使用 Git 进行代码版本控制，掌握分支管理与团队协作流程
+    title: 代码编辑与版本管理
+    details: 使用 Markdown 编写实验报告，借助 Git 和 GitHub 管理项目版本
+  - icon:
+      src: /icons/linux.svg
+    title: Linux 虚拟机环境
+    details: 使用 VirtualBox 安装 Ubuntu Server，配置 NAT 与 Host-Only 双网卡
   - icon:
       src: /icons/deploy.svg
-    title: 项目部署
-    details: 将静态站点部署到 GitHub Pages，实现从开发到上线的全流程
+    title: 远程管理与部署
+    details: 通过 SSH、rsync、Nginx 和 GitHub Actions 完成站点上线与验证
 ---
