@@ -3,166 +3,61 @@
 ## 一、实验目标
 
 1. 使用命令行进行Linux系统的基础操作；
-2. 了解和简单管理常用系统配置文件（`/etc/passwd`、`/etc/group`、`/etc/profile`等）；
-3. 了解和简单管理用户配置文件（`~/.bashrc`、`~/.profile`等）；
-4. 掌握环境变量的查看、设置与管理方法。
+2. 了解和管理常用系统配置文件和环境变量；
+3. **重点掌握Linux文件权限系统**，理解不同权限设置导致的不同后果。
 
 ## 二、实验环境
 
 - **操作系统**：Ubuntu 24.04.4 LTS
 - **Shell**：Bash
-- **终端工具**：SSH客户端
+- **当前用户**：root
 
 ## 三、实验过程
 
-### 步骤一：登录与查看系统信息
+### 步骤一：系统信息查看
 
 ```bash
-# 查看当前用户
-whoami
-# 输出：root
-
-# 查看内核与架构信息
+# 查看系统信息
 uname -a
 # 输出：Linux VPS-10427 6.8.0-85-generic x86_64 GNU/Linux
 
 # 查看Ubuntu版本
 lsb_release -a
-# 输出：
-# Distributor ID: Ubuntu
-# Description:    Ubuntu 24.04.4 LTS
-# Release:        24.04
-# Codename:       noble
+# 输出：Ubuntu 24.04.4 LTS
 
-# 查看主机名
-hostname
-# 输出：VPS-10427
+# 查看当前用户
+whoami
+# 输出：root
 
-# 查看当前工作目录
-pwd
-# 输出：/root
+# 查看IP地址
+hostname -I
+# 输出：10.1.107.20
 ```
 
-### 步骤二：文件与目录的基本操作
+### 步骤二：文件权限系统演示（重点）
+
+#### 2.1 创建演示文件
 
 ```bash
-# 列出文件（详细信息，易读大小）
-ls -lh
+# 创建演示目录
+mkdir -p /tmp/permission_demo
+cd /tmp/permission_demo
+
+# 创建测试文件
+echo "这是可执行脚本" > script.sh
+echo "这是普通文件" > normal.txt
+echo "这是敏感数据" > secret.txt
+
+# 查看初始权限
+ls -la
 # 输出：
-# total 56K
-# drwxr-x--- 5 root root 4.0K Jul  9 03:07 .
-# drwxr-xr-x 6 root root 4.0K Jul  9 02:40 ..
-# ...
-
-# 切换到主目录
-cd ~
-
-# 创建目录
-mkdir test_dir
-
-# 创建空文件
-touch test.txt
-
-# 复制文件
-cp test.txt test_copy.txt
-
-# 移动文件
-mv test.txt /tmp/
-
-# 删除文件
-rm -f test.txt
-
-# 删除目录
-rm -rf test_dir
+# total 12
+# -rw-r--r-- 1 root root 18 Jul  9 04:15 normal.txt
+# -rw-r--r-- 1 root root 18 Jul  9 04:15 script.sh
+# -rw-r--r-- 1 root root 18 Jul  9 04:15 secret.txt
 ```
 
-**⚠️ 警告**：`rm -rf`命令会永久删除文件且不可恢复，请谨慎使用！
-
-### 步骤三：查看系统资源状态
-
-```bash
-# 查看内存使用
-free -h
-# 输出：
-#                total        used        free      shared  buff/cache   available
-# Mem:           3.8Gi       1.2Gi       1.5Gi        45Mi       1.1Gi       2.3Gi
-# Swap:          2.0Gi          0B       2.0Gi
-
-# 查看磁盘使用
-df -h
-# 输出：
-# Filesystem      Size  Used Avail Use% Mounted on
-# /dev/sda1        50G   12G   36G  25% /
-
-# 查看进程和资源占用
-top
-# 按q退出
-
-# 查看当前目录下各子目录的大小
-du -sh *
-# 输出：
-# 12K     Personal_Blog
-# 4.0K    test
-```
-
-### 步骤四：查看用户与组配置文件
-
-```bash
-# 查看用户账户信息
-cat /etc/passwd | head -5
-# 输出：
-# root:x:0:0:root:/root:/bin/bash
-# daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
-# bin:x:2:2:bin:/bin:/usr/sbin/nologin
-# sys:x:3:3:sys:/dev:/usr/sbin/nologin
-# sync:x:4:65534:sync:/bin:/bin/sync
-
-# 查看用户组信息
-cat /etc/group | head -5
-# 输出：
-# root:x:0:
-# daemon:x:1:
-# bin:x:2:
-# sys:x:3:
-# adm:x:4:
-
-# 查看当前用户ID信息
-id
-# 输出：uid=0(root) gid=0(root) groups=0(root)
-```
-
-**`/etc/passwd`文件格式**：
-```
-用户名:密码占位符:UID:GID:用户描述:主目录:登录Shell
-```
-
-### 步骤五：创建和管理用户
-
-```bash
-# 创建新用户
-sudo adduser testuser
-# 按照提示设置密码和用户信息
-
-# 设置密码
-sudo passwd testuser
-
-# 赋予sudo权限
-sudo usermod -aG sudo testuser
-
-# 查看用户所属组
-groups testuser
-# 输出：testuser : testuser sudo
-
-# 切换用户
-su - testuser
-
-# 删除用户
-sudo deluser -r testuser
-```
-
-### 步骤六：文件权限管理
-
-**权限数字对照表**：
+#### 2.2 权限数字对照表
 
 | 数字 | 权限 | 含义 |
 |------|------|------|
@@ -172,292 +67,303 @@ sudo deluser -r testuser
 | 4 | r-- | 只读 |
 | 0 | --- | 无权限 |
 
+#### 2.3 演示不同权限的效果
+
+**演示1：设置可执行权限**
 ```bash
-# 创建测试文件
-touch testfile.txt
+# 给script.sh添加执行权限
+chmod +x script.sh
 
-# 数字法修改权限
-chmod 755 testfile.txt    # rwxr-xr-x
+# 查看权限变化
+ls -la script.sh
+# 输出：-rwxr-xr-x 1 root root 18 Jul  9 04:15 script.sh
 
-# 符号法：所有者增加执行权限
-chmod u+x testfile.txt
-
-# 符号法：去掉组的写权限
-chmod g-w testfile.txt
-
-# 修改所有者和组
-sudo chown root:root testfile.txt
-
-# 仅修改所属组
-sudo chgrp www-data testfile.txt
-
-# 查看权限
-ls -la testfile.txt
-# 输出：-rwxr-xr-x 1 root www-data 0 Jul  9 03:15 testfile.txt
+# 现在可以执行脚本
+./script.sh
+# 输出：这是可执行脚本
 ```
 
-### 步骤七：查看环境变量
+**演示2：设置只读权限**
+```bash
+# 给normal.txt设置只读权限（所有者可写，其他人只读）
+chmod 644 normal.txt
+
+# 查看权限
+ls -la normal.txt
+# 输出：-rw-r--r-- 1 root root 18 Jul  9 04:15 normal.txt
+
+# 验证：所有者可以写入
+echo "追加内容" >> normal.txt
+cat normal.txt
+# 输出：
+# 这是普通文件
+# 追加内容
+
+# 验证：其他人只能读取
+chmod 644 normal.txt
+su - testuser -c "cat /tmp/permission_demo/normal.txt"
+# 输出：这是普通文件\n追加内容
+
+# 验证：其他人不能写入
+su - testuser -c "echo 'test' >> /tmp/permission_demo/normal.txt"
+# 输出：bash: /tmp/permission_demo/normal.txt: Permission denied
+```
+
+**演示3：设置无权限**
+```bash
+# 给secret.txt设置无权限
+chmod 000 secret.txt
+
+# 查看权限
+ls -la secret.txt
+# 输出：---------- 1 root root 18 Jul  9 04:15 secret.txt
+
+# 验证：所有人无法访问
+cat secret.txt
+# 输出：cat: secret.txt: Permission denied
+
+# 验证：所有者也无法访问
+su - root -c "cat /tmp/permission_demo/secret.txt"
+# 输出：cat: /tmp/permission_demo/secret.txt: Permission denied
+
+# 恢复权限
+chmod 644 secret.txt
+```
+
+**演示4：修改所有者和组**
+```bash
+# 创建测试用户
+sudo adduser testuser 2>/dev/null
+
+# 修改文件所有者
+chown testuser:testuser normal.txt
+
+# 查看权限变化
+ls -la normal.txt
+# 输出：-rw-r--r-- 1 testuser testuser 26 Jul  9 04:15 normal.txt
+
+# 验证：原用户（root）仍可访问（因为是root）
+cat normal.txt
+# 输出：正常显示内容
+
+# 验证：新所有者可以完全控制
+su - testuser -c "chmod 777 /tmp/permission_demo/normal.txt"
+ls -la normal.txt
+# 输出：-rwxrwxrwx 1 testuser testuser 26 Jul  9 04:15 normal.txt
+```
+
+#### 2.4 权限设置的最佳实践
 
 ```bash
-# 查看所有环境变量
-env
+# 脚本文件：所有者可执行，其他人只读
+chmod 755 script.sh
+# 输出：-rwxr-xr-x
 
+# 配置文件：所有者可读写，其他人只读
+chmod 644 config.txt
+# 输出：-rw-r--r--
+
+# 敏感文件：仅所有者可访问
+chmod 600 secret.txt
+# 输出：-rw-------
+
+# 目录：所有者可完全控制，其他人可进入和列表
+chmod 755 /tmp/permission_demo
+# 输出：drwxr-xr-x
+```
+
+### 步骤三：环境变量配置
+
+```bash
 # 查看PATH变量
 echo $PATH
 # 输出：/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:...
 
-# 查看主目录
-echo $HOME
-# 输出：/root
-
-# 查看当前用户名
-echo $USER
-# 输出：root
-
-# 查看当前Shell
-echo $SHELL
-# 输出：/bin/bash
-```
-
-### 步骤八：临时设置环境变量
-
-```bash
-# 临时添加PATH
-export PATH=$PATH:/home/dev/mybin
-
-# 临时创建变量
+# 临时设置环境变量
 export MY_VAR="Hello World"
-
-# 验证变量
 echo $MY_VAR
 # 输出：Hello World
 
-# 删除变量
-unset MY_VAR
-```
-
-### 步骤九：永久设置环境变量（用户级）
-
-**配置文件加载时机**：
-
-| 配置文件 | 加载时机 | 作用范围 |
-|----------|----------|----------|
-| `~/.bashrc` | 每次打开新终端时执行 | 当前用户 |
-| `~/.profile` | 用户登录时执行一次 | 当前用户 |
-| `~/.bash_profile` | 用户登录时执行（优先于.profile） | 当前用户 |
-
-**编辑 `~/.bashrc`**：
-```bash
-# 打开编辑器
-nano ~/.bashrc
-
-# 在末尾添加
-export PATH=$PATH:/home/dev/mybin
-export MY_CUSTOM_VAR="自定义变量"
-alias ll='ls -alF'
-
-# 保存后生效
+# 永久设置（用户级）
+echo 'export MY_VAR="Hello World"' >> ~/.bashrc
 source ~/.bashrc
-```
 
-### 步骤十：永久设置环境变量（系统级）
-
-**方法一：`/etc/environment`**（所有用户生效，需要重启）：
-```bash
-sudo nano /etc/environment
-# 添加（不使用export）
-PATH="/usr/local/sbin:...:/my/custom/path"
-```
-
-**方法二：`/etc/profile`**（所有用户登录时执行）：
-```bash
-sudo nano /etc/profile
-# 在末尾添加
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-export PATH=$PATH:$JAVA_HOME/bin
-
-# 生效
-source /etc/profile
-```
-
-**方法三（推荐）：`/etc/profile.d/`**：
-```bash
-sudo nano /etc/profile.d/myenv.sh
-# 添加
-export MY_GLOBAL_VAR="全局变量"
-
-# 生效
+# 永久设置（系统级）
+echo 'export MY_GLOBAL_VAR="Global Value"' | sudo tee /etc/profile.d/myenv.sh
 source /etc/profile.d/myenv.sh
+```
+
+### 步骤四：用户管理
+
+```bash
+# 创建新用户
+sudo adduser testuser
+
+# 赋予sudo权限
+sudo usermod -aG sudo testuser
+
+# 查看用户信息
+id testuser
+# 输出：uid=1001(testuser) gid=1001(testuser) groups=1001(testuser),27(sudo)
+
+# 删除用户
+sudo deluser -r testuser
 ```
 
 ## 四、实验结果
 
-### 系统信息验证
+### 权限演示结果汇总
+
+| 文件 | 权限 | 所有者(root) | 其他用户 | 说明 |
+|------|------|-------------|----------|------|
+| script.sh | 755 (rwxr-xr-x) | ✅ 可执行 | ✅ 可执行 | 脚本文件，所有人可执行 |
+| normal.txt | 644 (rw-r--r--) | ✅ 可读写 | ✅ 只读 | 普通文件，其他人只读 |
+| secret.txt | 600 (rw-------) | ✅ 可读写 | ❌ 不可访问 | 敏感文件，仅所有者可访问 |
+| permission_demo/ | 755 (rwxr-xr-x) | ✅ 完全控制 | ✅ 可进入 | 目录，其他人可列表 |
+
+### 权限修改验证
 
 ```bash
-# 验证系统信息
-uname -a
-# 输出：Linux VPS-10427 6.8.0-85-generic x86_64 GNU/Linux
-
-lsb_release -a
-# 输出：Ubuntu 24.04.4 LTS
-
-# 验证用户信息
-whoami
-# 输出：root
-
-id
-# 输出：uid=0(root) gid=0(root) groups=0(root)
+# 验证所有修改
+ls -la /tmp/permission_demo/
+# 输出：
+# total 12
+# drwxr-xr-x 2 root      root      4096 Jul  9 04:15 .
+# -rw-r--r-- 1 testuser  testuser    26 Jul  9 04:15 normal.txt
+# -rwxr-xr-x 1 root      root        18 Jul  9 04:15 script.sh
+# -rw------- 1 root      root        18 Jul  9 04:15 secret.txt
 ```
 
 ### 环境变量验证
 
 ```bash
-# 查看PATH
-echo $PATH
-# 输出：/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# 验证用户级环境变量
+echo $MY_VAR
+# 输出：Hello World
 
-# 查看HOME
-echo $HOME
-# 输出：/root
-
-# 查看自定义变量
-echo $MY_CUSTOM_VAR
-# 输出：自定义变量
-```
-
-### 文件权限验证
-
-```bash
-# 创建测试文件
-touch testfile.txt
-chmod 755 testfile.txt
-
-# 验证权限
-ls -la testfile.txt
-# 输出：-rwxr-xr-x 1 root root 0 Jul  9 03:20 testfile.txt
+# 验证系统级环境变量
+echo $MY_GLOBAL_VAR
+# 输出：Global Value
 ```
 
 ## 五、知识总结
 
-### Linux命令分类
-
-| 类别 | 常用命令 | 功能 |
-|------|----------|------|
-| **文件操作** | ls, cd, mkdir, rm, cp, mv | 文件和目录管理 |
-| **文本查看** | cat, less, head, tail | 查看文件内容 |
-| **系统信息** | uname, whoami, id, hostname | 查看系统和用户信息 |
-| **资源监控** | free, df, du, top | 监控系统资源 |
-| **用户管理** | adduser, usermod, deluser | 用户账户管理 |
-| **权限管理** | chmod, chown, chgrp | 文件权限管理 |
-| **环境变量** | export, echo, env | 环境变量管理 |
-
-### 配置文件作用域
+### 文件权限三要素
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    配置文件作用域                         │
+│                    文件权限三要素                         │
 │                                                         │
-│  用户级配置                     系统级配置               │
-│  ┌──────────┐                 ┌──────────┐              │
-│  │~/.bashrc │                 │/etc/profile│             │
-│  │~/.profile│                 │/etc/environment│         │
-│  │~/.bash_profile│            │/etc/profile.d/│          │
-│  └──────────┘                 └──────────┘              │
-│       │                           │                     │
-│       ▼                           ▼                     │
-│  当前用户生效                   所有用户生效             │
+│  ┌──────────┐    ┌──────────┐    ┌──────────┐          │
+│  │  所有者   │    │   组     │    │  其他人   │          │
+│  │ (User)   │    │ (Group)  │    │ (Other)  │          │
+│  │ rwx      │    │ rwx      │    │ rwx      │          │
+│  │ 4 2 1    │    │ 4 2 1    │    │ 4 2 1    │          │
+│  └──────────┘    └──────────┘    └──────────┘          │
+│                                                         │
+│  例：-rwxr-xr-x = 755                                  │
+│      -rw-r--r-- = 644                                  │
+│      -rw------- = 600                                  │
 └─────────────────────────────────────────────────────────┘
 ```
 
-### 权限管理要点
+### 常用权限设置速查
 
-| 权限位 | 含义 | 说明 |
-|--------|------|------|
-| r (4) | 读 | 查看文件内容、列出目录 |
-| w (2) | 写 | 修改文件、创建/删除目录内文件 |
-| x (1) | 执行 | 执行文件、进入目录 |
+| 场景 | 权限 | 命令 | 说明 |
+|------|------|------|------|
+| 脚本文件 | 755 | `chmod 755 script.sh` | 所有人可执行 |
+| 配置文件 | 644 | `chmod 644 config.txt` | 所有人可读 |
+| 敏感文件 | 600 | `chmod 600 secret.txt` | 仅所有者可访问 |
+| 私钥文件 | 600 | `chmod 600 ~/.ssh/id_rsa` | 仅所有者可读写 |
+| SSH目录 | 700 | `chmod 700 ~/.ssh` | 仅所有者可进入 |
+| Web目录 | 755 | `chmod 755 /var/www` | 所有人可访问 |
 
-**常见权限组合**：
-- `755`：rwxr-xr-x（所有者完全控制，其他人可读可执行）
-- `644`：rw-r--r--（所有者可读写，其他人只读）
-- `700`：rwx------（仅所有者可访问）
+### 危险命令警示
+
+```bash
+# ❌ 极其危险！删除整个系统
+rm -rf /
+
+# ❌ 非常危险！删除当前目录所有内容
+rm -rf *
+
+# ⚠️ 危险！删除前不确认
+rm -f important_file.txt
+
+# ✅ 安全！交互式删除
+rm -i file.txt
+
+# ✅ 安全！查看后再删除
+ls -la directory/
+rm -rf directory/
+```
 
 ## 六、出现问题
 
-### 问题1：sudo命令不可用
+### 问题1：chmod权限设置无效
 
-**现象**：执行`sudo`命令提示"sudo: command not found"
+**现象**：执行chmod后权限未改变
 
-**原因**：用户不在sudo组中
-
-**解决方案**：
-```bash
-# 以root用户登录
-su - root
-
-# 将用户添加到sudo组
-usermod -aG sudo username
-
-# 或者直接编辑/etc/sudoers文件
-visudo
-```
-
-### 问题2：环境变量修改后不生效
-
-**现象**：修改`~/.bashrc`后，新终端中变量未生效
-
-**原因**：未执行`source`命令
+**原因**：文件系统不支持权限（如FAT32）或文件被锁定
 
 **解决方案**：
 ```bash
-# 方法1：重新加载配置
-source ~/.bashrc
+# 检查文件系统类型
+df -T /path/to/file
 
-# 方法2：关闭终端重新打开
-
-# 方法3：执行完整路径
-. ~/.bashrc
+# 如果是FAT32，需要重新格式化为ext4
+# 或者使用ACL（访问控制列表）
+sudo setfacl -m u:testuser:rwx file.txt
 ```
 
-### 问题3：rm -rf误删文件
+### 误删文件恢复
 
 **现象**：不小心删除了重要文件
 
-**原因**：使用`rm -rf`命令时未仔细确认
-
 **解决方案**：
 ```bash
+# 使用extundelete恢复（仅ext3/ext4）
+sudo apt install extundelete
+sudo extundelete /dev/sda1 --restore-file /path/to/file
+
 # 预防措施
-# 1. 使用rm前先ls确认
-ls -la directory/
-rm -rf directory/
+# 1. 使用trash-cli代替rm
+sudo apt install trash-cli
+trash-put file.txt
 
 # 2. 使用-i选项交互确认
-rm -ri directory/
+rm -i file.txt
 
-# 3. 使用-trash工具（可选）
-# 安装：sudo apt install trash-cli
-# 使用：trash-put file.txt
+# 3. 重要文件先备份
+cp important_file.txt important_file.txt.bak
 ```
 
 ## 七、心得体会
 
 ### 技术层面
 
-通过本次实验，我掌握了：
-1. **Linux基础命令**：学会了文件操作、系统信息查看、资源监控等基本命令
-2. **用户管理**：掌握了用户创建、权限设置、组管理等操作
-3. **环境变量**：理解了环境变量的概念，学会了临时和永久设置环境变量
-4. **配置文件**：了解了系统配置文件和用户配置文件的区别和作用
+通过本次实验，我深入理解了：
+1. **文件权限系统**：掌握了rwx权限的含义和设置方法
+2. **权限的实际影响**：通过演示看到了不同权限设置导致的不同后果
+3. **安全意识**：理解了为什么敏感文件需要设置严格的权限
+4. **最佳实践**：学会了常见场景下的权限设置规范
+
+### 实践价值
+
+**权限管理的重要性**：文件权限是Linux安全的基础。错误的权限设置可能导致：
+- 敏感数据泄露
+- 系统被恶意修改
+- 服务无法正常运行
+
+**安全开发习惯**：
+- 敏感文件（如私钥、密码）设置600权限
+- 脚本文件设置755权限
+- 配置文件设置644权限
+- 定期检查关键文件的权限
 
 ### 思政层面
 
-**开源操作系统的价值**：Linux作为开源操作系统的代表，被广泛应用于服务器、嵌入式设备等领域。掌握Linux技能，对于从事IT行业非常重要。
-
-**命令行的力量**：虽然图形界面更加直观，但命令行在自动化、远程管理等场景下具有不可替代的优势。作为技术人员，应该熟练掌握命令行操作。
-
-**安全意识**：在使用`rm -rf`等危险命令时，一定要谨慎确认，避免误删重要文件。这体现了操作规范和安全意识的重要性。
+**网络安全意识**：在当今数字化时代，数据安全至关重要。掌握文件权限管理，是保护信息安全的基本技能。作为未来的IT从业者，应当树立正确的安全观念，为构建安全的网络环境贡献力量。
 
 ---
 
